@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 function App() {
   const [length, setLength] = useState(8);
   const [ischarAllowed, setCharAllowed] = useState(false);
   const [isNumberAllowed, setNumberAllowed] = useState(true);
   const [password, setPassword] = useState("");
+  const inputref = useRef(null);
 
   // const generatePassword = useCallback(() => {
   //   let charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -22,7 +23,7 @@ function App() {
   //   setPassword(pass);
   // }, [ischarAllowed, isNumberAllowed, length]);
 
-  const generatePassword=()=>{
+  const generatePassword = () => {
     let charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const nums = "0123456789";
     const special = "!@#$%^&*()_+";
@@ -35,7 +36,7 @@ function App() {
     }
 
     setPassword(pass);
-  }
+  };
 
   useEffect(() => {
     generatePassword();
@@ -43,8 +44,11 @@ function App() {
 
   const copyPassword = () => {
     window.navigator.clipboard.writeText(password);
+    if (inputref.current) {
+      inputref.current.select();
+    }
     alert("Password Copied");
-  }
+  };
   return (
     <>
       <div className="h-screen w-full flex items-center justify-center ">
@@ -56,11 +60,15 @@ function App() {
           </h1>
           <div className="flex gap-2 mt-10">
             <input
+              ref={inputref}
               type="text"
               value={password}
               className="text-md text-black outline-none rounded-md px-3 py-1"
             />
-            <button onClick={copyPassword}className="bg-black text-xl px-5 hover:text-black hover:bg-green-500 text-white font-bold text-center rounded-md">
+            <button
+              onClick={copyPassword}
+              className="bg-black text-xl px-5 hover:text-black hover:bg-green-500 text-white font-bold text-center rounded-md"
+            >
               Copy
             </button>
           </div>

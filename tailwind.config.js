@@ -17,7 +17,7 @@ export default {
         }
       },
       animation: {
-        never: "never 5s linear infinite"
+        never: "never 10s linear infinite"
       }
     }
   },
